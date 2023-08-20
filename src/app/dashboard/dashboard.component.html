@@ -1,0 +1,187 @@
+<div class="dashboard">
+  <div class="row">
+    <div class="col-sm-3 add_file">
+      <div class="card">
+        <div class="card-body" *ngIf="!isUplaod">
+          <div style="display: flex;">
+            <div style="width: 44px;">
+              <input class="form-control"  type="file" multiple (change)="onChange($event)" value="+"/>
+            </div>
+            <div class="content">
+              <div style="font-weight: bold;">Add more files</div>
+              <div style="color: #b7b4b4;">Remaining {{availableFileSize}} MB</div>
+            </div>
+          </div>
+          <div class="media-upload-table-container" *ngIf="uploadedMedia.length > 0">
+            <table class="media-upload-table table table-borderless">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="width: 246px"></th>
+                  <th class="media-progress-bar"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let media of uploadedMedia; let i = index">
+                  <td>
+                    <div class="test" style="display: flex;">
+                      <div style="margin-top: 10px;
+                      margin-left: 6px;color: white;
+    font-family: sans-serif;">{{media.FileModel | uppercase}}</div>
+                    </div>
+                  </td>
+                  <td style="
+                              width: 50px;
+                          ">
+                    <div class="flex-row align-items-center">
+
+                      <div class="media-file-name">
+                        <span style="word-wrap: break-word; white-space: pre-line">
+                          {{ media.FileName }}
+                        </span>
+                      </div>
+                      <div style="color: grey;">
+                        {{ media.FileSize }}
+                      </div>
+                    </div>
+                  </td>
+                  <td style="vertical-align:middle;width: 10px;">
+                    <div style="display: flex;">
+                      <div class="progress blue"  *ngIf="progress">
+                        <span class="progress-left">
+                          <span class="progress-bar"></span>
+                        </span>
+                        <span class="progress-right">
+                          <span class="progress-bar"></span>
+                        </span>
+                        <div class="progress-value">{{ media.FileProgress}}</div>
+                      </div>
+                      <!-- <div class="d-flex flex-column" style="margin-top: 18px;" *ngIf="progress">
+                      <div>
+                        <div class="first-progress">
+                          <div [ngStyle]="{ 'width.%': media.FileProgress }" class="second-progress"></div>
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        {{ media.FileProgessSize }} of {{ media.FileSize }}
+                      </div>
+                    </div> -->
+                      <div *ngIf="viewIcon" style="   
+                    margin-left: -6px;">
+                        <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+                          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                          xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" x="0px" y="0px"
+                          viewBox="0 0 97.199997 97.199997" xml:space="preserve" id="svg12"
+                          sodipodi:docname="noun_675776_cc.svg" style="height: 69px"
+                          inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+                          <defs id="defs16" />
+                          <g id="g6" transform="translate(-1.4,-1.4)" style="/* fill: grey; */">
+                            <polygon points="44.1,58.3 31.8,45.9 28.8,48.9 44.1,64.2 69.5,38.8 66.6,35.8 " id="polygon2"
+                              style="fill:lightgreen;" />
+                            <path
+                              d="M 50,88.6 C 71.3,88.6 88.6,71.3 88.6,50 88.6,28.7 71.3,11.4 50,11.4 28.7,11.4 11.4,28.7 11.4,50 11.4,71.3 28.7,88.6 50,88.6 Z m 0,-73 C 68.9,15.6 84.4,31 84.4,50 84.4,69 68.9,84.4 50,84.4 31.1,84.4 15.6,68.9 15.6,50 15.6,31.1 31.1,15.6 50,15.6 Z"
+                              id="path4" inkscape:connector-curvature="0" style="fill: #8080803b;" />
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+                  </td>
+                  <!-- <td style="vertical-align:middle;text-align: right;">
+                                <div class="media-upload-check">
+                                  <span *ngIf="media.FileProgress === 100"> Completed</span>
+                                </div>
+                              </td>
+                              <td style="vertical-align:middle;">
+                                <a class="remove-media-txt" (click)="removeImage(i)"> Remove </a>
+                              </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="upload">
+            <div>
+              <button type="button" class="btn btn-light value">...</button>
+            </div>
+            <div style="margin-left: 22px;">
+              <button type="button" class="btn btn-success green" (click)="onUpload()">Upload</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="isUplaod">
+          <div class="upload_image">
+            <div style="    width: 100%;
+            text-align: center;">
+                <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+                  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" x="0px" y="0px"
+                  viewBox="0 0 97.199997 97.199997" xml:space="preserve" id="svg12"
+                  sodipodi:docname="noun_675776_cc.svg" style="height: 100px"
+                  inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+                  <defs id="defs16" />
+                  <g id="g6" transform="translate(-1.4,-1.4)" style="/* fill: grey; */">
+                    <polygon points="44.1,58.3 31.8,45.9 28.8,48.9 44.1,64.2 69.5,38.8 66.6,35.8 " id="polygon2"
+                      style="fill:lightgreen;" />
+                    <path
+                      d="M 50,88.6 C 71.3,88.6 88.6,71.3 88.6,50 88.6,28.7 71.3,11.4 50,11.4 28.7,11.4 11.4,28.7 11.4,50 11.4,71.3 28.7,88.6 50,88.6 Z m 0,-73 C 68.9,15.6 84.4,31 84.4,50 84.4,69 68.9,84.4 50,84.4 31.1,84.4 15.6,68.9 15.6,50 15.6,31.1 31.1,15.6 50,15.6 Z"
+                      id="path4" inkscape:connector-curvature="0" style="fill: #8080803b;" />
+                  </g>
+                </svg>
+              </div>
+          </div>
+          <div class="upload_content">
+            <div style="    font-size: 27px;
+            font-weight: 700;
+            font-family: math;
+            color: rgb(14, 54, 141);">You're done!</div>
+            <div style="    text-wrap: wrap;
+            width: 196px;
+            margin-left: 65px;
+            font-size: 18px;color: rgb(14, 54, 141);">Copy your download link or <a href="">link</a></div>
+          </div>
+          <div class="input">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" style="cursor: pointer;">
+              <span class="input-group-text" id="basic-addon2">
+                <img src="../../assets/copy.png" alt="copy" style="height: 27px;">
+                
+              </span>
+            </div>
+          </div>
+          <div class="button" style="width: 100%;text-align: center;">
+            <button type="button" class="btn btn-light" style="height: 50px;
+            background-color: #ffc5be;
+            color: white;
+            font-family: math;" (click)="isUplaod = false;">Send Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-md-3 content">
+      <div style="font-size: 28px;font-weight: bold;
+        text-wrap: wrap;
+        width: 261px;">
+        You can upload up to 1024 MB files
+      </div>
+      <div style="text-wrap: wrap;
+        width: 309px;">
+        we generate the best scenarios for everyone to make
+      </div>
+      <div style="display: flex;margin-top: 28px;">
+        <div>
+          <button type="button" class="btn btn-light">Beacome a member</button>
+        </div>
+        <div style="margin-left: 20px;">
+          <button type="button" class="btn btn-light">Log in</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 image">
+      <img src="../../assets/upload.jpg" alt="logo">
+    </div>
+  </div>
+</div>
