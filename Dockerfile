@@ -7,5 +7,5 @@ RUN npm run build
 
 
 FROM nginx:1.17.1-alpine
-COPY --from=build-step /app/build /usr/share/nginx/html
+COPY --from=build-step /dist/sharedata /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
